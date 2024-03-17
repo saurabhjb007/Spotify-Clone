@@ -42,7 +42,7 @@ async function getSongs(folder) {
     songUL.innerHTML =
       songUL.innerHTML +
       `<li>
-        <img class="invert" src="/image/music.svg" alt="" />
+        <img class="invert" width="34" src="/image/music.svg" alt="" />
         <div class="info">
           <div>${song.replaceAll("%20", " ")}</div>
         </div>
@@ -87,7 +87,7 @@ async function displayAlbums() {
   let array = Array.from(anchors);
   for (let index = 0; index < array.length; index++) {
     const e = array[index];
-    if (e.href.includes("/songs/")) {
+    if (e.href.includes("/songs/") && !e.href.includes(".htaccess")) {
       let folder = e.href.split("/")[4];
       //  get the Metadata of folder
       let a = await fetch(`/songs/${folder}/info.json`);
@@ -118,7 +118,7 @@ async function displayAlbums() {
       />
       <h2>${response.title}</h2>
       <p>
-        ${response.desription}
+        ${response.description}
       </p>
     </div>`;
     }
@@ -135,11 +135,11 @@ async function displayAlbums() {
 
 async function main() {
   // Get list of all Songs
-  songs = await getSongs("songs/Arijit_Singh");
+  await getSongs("songs/ArijitSingh");
   playMusic(songs[0], false);
 
   // Display All Albums
-  displayAlbums();
+  await displayAlbums();
 
   // Eventlistener for Play and Pause
   play.addEventListener("click", () => {
